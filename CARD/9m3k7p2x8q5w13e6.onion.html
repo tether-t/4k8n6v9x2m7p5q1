@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9m3k7p2x8q5w1e4r.onion - Welcome Portal | Secure Access</title>
+    <link rel="icon" type="image/jpg" href="images/LOGO/high-impact-red-neon-math-tool-icon-with-dark-background_462839-2439.jpg">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><polygon points="0,0 0,15 5,12 8,20 12,18 9,10 20,10" fill="%23ff0000" stroke="%23ffffff" stroke-width="1"/></svg>'), auto;
+        }
+
+        .welcome-container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, #1a0000 0%, #000000 100%);
+        }
+
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 98px,
+                rgba(255, 0, 0, 0.03) 100px
+            );
+            animation: matrixScroll 20s linear infinite;
+        }
+
+        .cyber-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo-section {
+            margin-bottom: 40px;
+        }
+
+        .main-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.5));
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .brand-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .brand-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        .warning-section {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .warning-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff0000;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .warning-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 0, 0, 0.6);
+            transform: translateY(-5px);
+        }
+
+        .info-icon {
+            font-size: 2.5rem;
+            color: #ff0000;
+            margin-bottom: 15px;
+        }
+
+        .info-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .terms-section {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .terms-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ff0000;
+            margin-bottom: 20px;
+        }
+
+        .terms-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .terms-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-list li:last-child {
+            border-bottom: none;
+        }
+
+        .terms-list i {
+            color: #ff0000;
+            font-size: 1.1rem;
+        }
+
+        .agreement-section {
+            margin-bottom: 40px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .custom-checkbox {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ff0000;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .custom-checkbox.checked {
+            background: #ff0000;
+        }
+
+        .custom-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .agreement-text {
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .enter-btn {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .enter-btn.enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .enter-btn.enabled:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.4);
+        }
+
+        .security-notice {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #ff0000;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+
+        .security-notice h4 {
+            color: #ff0000;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .security-notice p {
+            color: #ccc;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        @keyframes matrixScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100px); }
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-content {
+                padding: 20px;
+            }
+
+            .brand-title {
+                font-size: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .security-notice {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin-top: 20px;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <div class="matrix-bg"></div>
+        <div class="cyber-grid"></div>
+        
+        <div class="welcome-content">
+            <div class="logo-section">
+                <img src="images/LOGO/high-impact-red-neon-math-tool-icon-with-dark-background_462839-2439.jpg" alt="Black Store" class="main-logo">
+                <h1 class="brand-title">BLACK STORE</h1>
+                <p class="brand-subtitle">Secure and Trusted Dark Web Store</p>
+            </div>
+
+            <div class="warning-section">
+                <h2 class="warning-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Important Warning - Read Carefully
+                </h2>
+                <p class="warning-text">
+                    You are about to enter the official Black Store on the dark web. This site is for adults only and requires a complete understanding of risks and local laws. We are not responsible for any illegal use of our services.
+                </p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3 class="info-title">Official Store</h3>
+                    <p class="info-text">All products and services are exclusively owned by the site. We don't work with external vendors.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="info-title">Direct Dealing</h3>
+                    <p class="info-text">Direct dealing with site management only. No need for intermediaries or vendors.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fab fa-bitcoin"></i>
+                    </div>
+                    <h3 class="info-title">Secure Payment</h3>
+                    <p class="info-text">We accept Bitcoin only to ensure complete privacy and security.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <h3 class="info-title">No OTP</h3>
+                    <p class="info-text">All our cards are ready for immediate use without additional verification codes.</p>
+                </div>
+            </div>
+
+            <div class="terms-section">
+                <h3 class="terms-title">Basic Terms of Use</h3>
+                <ul class="terms-list">
+                    <li><i class="fas fa-check"></i> You must be an adult (18+ years) to use this site</li>
+                    <li><i class="fas fa-check"></i> All sales are final and cannot be returned except in specific cases</li>
+                    <li><i class="fas fa-check"></i> We are not responsible for illegal use of products</li>
+                    <li><i class="fas fa-check"></i> Sharing site information with external parties is prohibited</li>
+                    <li><i class="fas fa-check"></i> Bitcoin payment only - we don't accept other payment methods</li>
+                    <li><i class="fas fa-check"></i> Customer service available 24/7 via encrypted channels only</li>
+                </ul>
+            </div>
+
+            <div class="agreement-section">
+                <div class="checkbox-container">
+                    <div class="custom-checkbox" id="agreement-checkbox"></div>
+                    <label class="agreement-text">I agree to all terms and conditions and take full responsibility</label>
+                </div>
+                
+                <button class="enter-btn" id="enter-btn">
+                    <i class="fas fa-door-open"></i>
+                    Enter Store
+                </button>
+            </div>
+        </div>
+
+        <div class="security-notice">
+            <h4><i class="fas fa-shield-alt"></i> Security Notice</h4>
+            <p>Make sure to use VPN and Tor for complete protection. Don't share your personal information.</p>
+        </div>
+    </div>
+
+    <script>
+        const checkbox = document.getElementById('agreement-checkbox');
+        const enterBtn = document.getElementById('enter-btn');
+
+        checkbox.addEventListener('click', function() {
+            this.classList.toggle('checked');
+            
+            if (this.classList.contains('checked')) {
+                enterBtn.classList.add('enabled');
+            } else {
+                enterBtn.classList.remove('enabled');
+            }
+        });
+
+        enterBtn.addEventListener('click', function() {
+            if (this.classList.contains('enabled')) {
+                // Save user agreement
+                localStorage.setItem('blackstore_agreement', 'accepted');
+                localStorage.setItem('blackstore_first_visit', 'false');
+                
+                // Navigate to main page
+                window.location.href = 'file:///C:/Users/ECC/Desktop/CARD/Index.html';
+            }
+        });
+
+        // تأثيرات بصرية إضافية
+        document.addEventListener('mousemove', function(e) {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '2px';
+            cursor.style.height = '2px';
+            cursor.style.background = '#ff0000';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            cursor.style.opacity = '0.7';
+            
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.remove();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

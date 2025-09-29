@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>VISA Premium Cards - Black Store</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10 30 L90 30 L90 70 L10 70 Z' fill='%23ff0000' rx='5'/%3E%3Ctext x='50' y='55' font-family='Arial Black' font-size='16' font-weight='900' text-anchor='middle' fill='black'%3EVISA%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .product-card.sold-out { position: relative; }
+        .product-card.sold-out .card-image { filter: grayscale(100%) brightness(0.8); }
+        .product-card.sold-out::before {
+            content: "SOLD OUT";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transform: rotate(0deg);
+            background: #ffffff;
+            color: #ff0000;
+            border: 2px solid #ff0000;
+            padding: 6px 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.25);
+            border-radius: 6px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .product-card.sold-out::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            width: 120%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.25);
+            transform: rotate(-12deg);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .product-card.sold-out .add-to-cart {
+            background: #3a3a3a !important;
+            color: #bdbdbd !important;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none !important;
+        }
+        .product-description {
+            display: none !important;
+        }
+        .no-otp-tag {
+            background: rgba(0,255,0,0.2);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin: 8px 0;
+            text-align: center;
+        }
+        .no-otp-tag.premium {
+            background: rgba(255,215,0,0.2);
+            color: #ffd700;
+            border: 1px solid #ffd700;
+        }
+        .dark-badges {
+            display: none !important;
+        }
+        .dark-badges {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        .dark-badges span {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .verified-badge { background: rgba(0,255,0,0.2); color: #00ff00; border: 1px solid #00ff00; }
+        .instant-badge { background: rgba(255,255,0,0.2); color: #ffff00; border: 1px solid #ffff00; }
+        .anonymous-badge { background: rgba(255,0,255,0.2); color: #ff00ff; border: 1px solid #ff00ff; }
+        .premium-badge { background: rgba(255,215,0,0.2); color: #ffd700; border: 1px solid #ffd700; }
+        .unavailable-badge { background: rgba(255,0,0,0.2); color: #ff4444; border: 1px solid #ff4444; }
+        .restock-badge { background: rgba(0,255,255,0.2); color: #00ffff; border: 1px solid #00ffff; }
+        .rating-only {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ffd700;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        h3 strong {
+            color: #00ff00 !important;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
+            .header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); }
+            .navbar { padding: 15px !important; min-height: 50px; }
+            .page-hero { padding: 120px 15px 80px !important; min-height: 70vh !important; margin-top: 0 !important; }
+            .page-hero div[style*="width: 500px"] { width: 350px !important; height: 350px !important; }
+            .container { padding: 0 15px !important; max-width: 100% !important; }
+            .visa-products h2 { font-size: 1.5rem !important; text-align: center; }
+            .products-grid { grid-template-columns: 1fr !important; gap: 15px !important; padding: 0 10px; }
+            .product-card { padding: 15px !important; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+            .product-card h3 { font-size: 1rem !important; line-height: 1.3; }
+            .add-to-cart { padding: 12px 20px !important; font-size: 0.9rem !important; min-height: 44px; border-radius: 25px; }
+            button, .add-to-cart { min-height: 44px; touch-action: manipulation; border-radius: 25px; }
+            .review-item { padding: 15px !important; margin-bottom: 15px !important; }
+            #reviewModal > div { width: 95% !important; margin: 20px auto; }
+            textarea { font-size: 16px !important; }
+            input, textarea, select { font-size: 16px; }
+            div[style*="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"] { grid-template-columns: 1fr !important; }
+            div[style*="display: flex; justify-content: center; gap: 25px"] { flex-direction: column !important; gap: 15px !important; }
+            div[style*="display: flex; justify-content: center; gap: 25px"] button { width: 100% !important; }
+            .footer-content { grid-template-columns: 1fr !important; gap: 20px !important; text-align: center; }
+            .footer-section { padding: 15px !important; background: rgba(255,0,0,0.05) !important; border-radius: 12px !important; border: 1px solid rgba(255,0,0,0.2) !important; }
+            .footer-bottom > div { flex-direction: column !important; gap: 15px !important; padding: 15px 0 !important; }
+            .footer-bottom { border-top: 1px solid rgba(255,0,0,0.3) !important; margin-top: 20px !important; }
+            .footer-section h4 { font-size: 0.9rem !important; }
+            .footer-section ul li { font-size: 0.75rem !important; }
+            .footer-bottom p { font-size: 0.7rem !important; }
+            .trust-bar { padding: 10px 0 !important; }
+            .trust-bar div { gap: 10px !important; justify-content: space-around !important; flex-wrap: wrap; }
+            .trust-bar span { font-size: 0.7rem !important; padding: 5px 8px; background: rgba(0,0,0,0.5); border-radius: 15px; }
+        }
+        
+        /* Touch-friendly interactions */
+        .touchable {
+            -webkit-tap-highlight-color: rgba(255,0,0,0.3);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .product-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        
+        button:active, .add-to-cart:active {
+            transform: scale(0.95);
+        }
+        
+        .add-to-cart {
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+        
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,0,0,0.4);
+        }
+        
+        /* Mobile Header Improvements for Small Screens */
+        @media (max-width: 480px) {
+            .navbar { padding: 12px !important; min-height: 45px; }
+            .footer-section { margin-bottom: 10px !important; }
+            .live-indicator { font-size: 0.65rem !important; padding: 3px 6px !important; }
+        }
+        
+        /* Desktop - Hide mobile elements for large screens */
+        @media (min-width: 769px) {
+            .mobile-home-btn { display: none !important; }
+            .navbar { display: flex; justify-content: space-between; align-items: center; }
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; direction: ltr;">
+    <header class="header">
+        <div class="header-bg"></div>
+        <nav class="navbar">
+            <div class="nav-brand" style="display: flex; align-items: center; gap: 20px;">
+                <div class="brand-icon" style="position: relative; width: 90px; height: 90px;">
+                    <i class="fab fa-cc-visa" style="width: 100%; height: 100%; font-size: 90px; color: #ff0000; filter: drop-shadow(0 0 25px rgba(255,0,0,0.8)) drop-shadow(0 0 50px rgba(255,0,0,0.4)); animation: headerHologram 8s ease-in-out infinite; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.1)'; this.style.filter='drop-shadow(0 0 35px rgba(255,0,0,1)) drop-shadow(0 0 70px rgba(255,0,0,0.6))'" onmouseout="this.style.transform='scale(1)'; this.style.filter='drop-shadow(0 0 25px rgba(255,0,0,0.8)) drop-shadow(0 0 50px rgba(255,0,0,0.4))'">
+                    </i>
+                    <div style="position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border: 2px solid rgba(255,0,0,0.3); border-radius: 50%; animation: headerRing 6s linear infinite; pointer-events: none;"></div>
+                </div>
+                <div class="brand-text" style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="color: #ff0000; font-size: 1.8rem; font-weight: 900; font-family: 'Bebas Neue', 'Arial Black', sans-serif; text-shadow: 0 0 20px rgba(255,0,0,0.6), 0 0 40px rgba(255,0,0,0.3); letter-spacing: 0.1em;">VISA</span>
+                    <span style="color: #888; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,0,0,0.3);">Premium Cards</span>
+                </div>
+
+            </div>
+            <div class="nav-center desktop-nav">
+                <div class="nav-menu">
+                    <a href="file:///C:/Users/ECC/Desktop/CARD/Index.html" class="nav-link touchable">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="#" class="nav-link active touchable" style="position: relative;">
+                        <i class="fab fa-cc-visa" style="width: 28px; height: 28px; font-size: 28px; color: #ff0000; filter: drop-shadow(0 0 15px rgba(255,0,0,0.8)); animation: navIconGlow 4s ease-in-out infinite;"></i>
+                        <span style="text-shadow: 0 0 10px rgba(255,0,0,0.5);">Visa</span>
+                        <div style="position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 80%; height: 2px; background: linear-gradient(90deg, transparent, #ff0000, transparent); animation: navUnderline 3s ease-in-out infinite;"></div>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Trust Indicators -->
+    <section class="trust-bar" style="background: linear-gradient(45deg, #1a1a1a, #2d2d2d); padding: 8px 0; border-bottom: 1px solid #ff0000;">
+        <div class="container">
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center;">
+                <span style="color: #00ff00; font-size: 0.75rem; font-weight: 600;"><i class="fas fa-shield-alt"></i> Anonymous Access</span>
+                <span style="color: #ff6600; font-size: 0.75rem; font-weight: 600;"><i class="fas fa-user-secret"></i> No Tracking</span>
+                <span style="color: #ffff00; font-size: 0.75rem; font-weight: 600;"><img src="imgs/87496d50-2408-43e1-ad4c-78b47b448a6a.png" alt="Bitcoin" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 5px;"> Bitcoin Only</span>
+                <span style="color: #ffffff; font-size: 0.75rem; font-weight: 600;"><i class="fas fa-globe"></i> TOR Compatible</span>
+                <span style="color: #ff0000; font-size: 0.75rem; font-weight: 600;"><i class="fas fa-ban"></i> No KYC</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-hero" style="background: radial-gradient(ellipse at center, #0a0000 0%, #000000 70%, #0a0a0a 100%); padding: 300px 0; position: relative; overflow: hidden; border-bottom: 2px solid #ff0000; min-height: 80vh;">
+        <!-- Advanced Hologram Logo -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; height: 500px; pointer-events: none; display: flex; align-items: center; justify-content: center;">
+            <i class="fab fa-cc-visa" style="font-size: 400px; color: #ff0000; opacity: 0.2; filter: drop-shadow(0 0 40px rgba(255,0,0,0.8)) drop-shadow(0 0 80px rgba(255,0,0,0.4)) drop-shadow(0 0 120px rgba(255,0,0,0.2)); animation: advancedHologram 10s ease-in-out infinite;"></i>
+        </div>
+        <!-- Hologram Rings -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; border: 2px solid rgba(255,0,0,0.3); border-radius: 50%; animation: ringPulse 6s ease-in-out infinite; pointer-events: none;"></div>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; height: 700px; border: 1px solid rgba(255,0,0,0.2); border-radius: 50%; animation: ringPulse 8s ease-in-out infinite 2s; pointer-events: none;"></div>
+        <!-- Enhanced Grid -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(255,0,0,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,0,0.15) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.4; animation: gridFlow 12s linear infinite; pointer-events: none;"></div>
+        
+        <div class="container" style="position: relative; z-index: 3; max-width: 1200px; text-align: center;">
+
+        </div>
+
+        </div>
+        
+        <style>
+            @keyframes advancedHologram {
+                0%, 100% { transform: rotateY(0deg) rotateX(0deg) scale(1); opacity: 0.2; filter: drop-shadow(0 0 40px rgba(255,0,0,0.8)) drop-shadow(0 0 80px rgba(255,0,0,0.4)) drop-shadow(0 0 120px rgba(255,0,0,0.2)); }
+                25% { transform: rotateY(90deg) rotateX(15deg) scale(1.1); opacity: 0.35; filter: drop-shadow(0 0 60px rgba(255,0,0,1)) drop-shadow(0 0 100px rgba(255,0,0,0.6)) drop-shadow(0 0 140px rgba(255,0,0,0.3)); }
+                50% { transform: rotateY(180deg) rotateX(0deg) scale(0.95); opacity: 0.25; filter: drop-shadow(0 0 50px rgba(255,0,0,0.9)) drop-shadow(0 0 90px rgba(255,0,0,0.5)) drop-shadow(0 0 130px rgba(255,0,0,0.25)); }
+                75% { transform: rotateY(270deg) rotateX(-15deg) scale(1.05); opacity: 0.4; filter: drop-shadow(0 0 70px rgba(255,0,0,1.2)) drop-shadow(0 0 110px rgba(255,0,0,0.7)) drop-shadow(0 0 150px rgba(255,0,0,0.35)); }
+            }
+            @keyframes ringPulse {
+                0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+                50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+            }
+            @keyframes gridFlow {
+                0% { transform: translateX(0) translateY(0); }
+                100% { transform: translateX(40px) translateY(40px); }
+            }
+        </style>
+    </section>
+
+    <!-- Trust Indicators -->
+    <section class="trust-bar" style="background: linear-gradient(45deg, #1a1a1a, #2d2d2d); padding: 15px 0; border-bottom: 1px solid #ff0000;">
+        <div class="container">
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; align-items: center;">
+                <span style="color: #00ff00; font-size: 0.9rem; font-weight: 600;"><i class="fas fa-shield-alt"></i> Anonymous Access</span>
+                <span style="color: #ff6600; font-size: 0.9rem; font-weight: 600;"><i class="fas fa-user-secret"></i> No Tracking</span>
+                <span style="color: #ffff00; font-size: 0.9rem; font-weight: 600;"><img src="imgs/87496d50-2408-43e1-ad4c-78b47b448a6a.png" alt="Bitcoin" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"> Bitcoin Only</span>
+                <span style="color: #00ffff; font-size: 0.9rem; font-weight: 600;"><i class="fas fa-globe"></i> TOR Compatible</span>
+                <span style="color: #ff0000; font-size: 0.9rem; font-weight: 600;"><i class="fas fa-ban"></i> No KYC</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="visa-products">
+        <div class="container">
+            <!-- Bitcoin Payment Notice -->
+            <div style="background: linear-gradient(45deg, #2d1a00, #4d2d00); border: 2px solid #ff6600; border-radius: 15px; padding: 20px; margin: 20px 0; box-shadow: 0 0 30px rgba(255,102,0,0.3); text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                    <img src="imgs/87496d50-2408-43e1-ad4c-78b47b448a6a.png" alt="Bitcoin" style="width: 32px; height: 32px;">
+                    <h3 style="color: #ff6600; margin: 0; font-size: 1.3rem; text-shadow: 0 0 10px rgba(255,102,0,0.5);">⚠️ Important Payment Notice</h3>
+                    <img src="imgs/87496d50-2408-43e1-ad4c-78b47b448a6a.png" alt="Bitcoin" style="width: 32px; height: 32px;">
+                </div>
+                <p style="color: #ffcc00; font-size: 1.1rem; font-weight: 600; margin: 0; line-height: 1.5;">
+                    🔔 We accept Bitcoin payments only - you must convert the required amount to Bitcoin before completing the purchase
+                </p>
+                <div style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; margin-top: 15px;">
+                    <p style="color: #ddd; font-size: 0.9rem; margin: 0;">
+                        💡 Use trusted trading platforms to convert your funds to Bitcoin before payment
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Tabs Navigation -->
+            <div style="display: flex; justify-content: center; margin: 40px 0 30px 0; gap: 25px; padding: 20px; background: rgba(0,0,0,0.5); border-radius: 15px; border: 2px solid #ff0000; box-shadow: 0 10px 30px rgba(255,0,0,0.3);">
+                <button onclick="showSection(1)" id="tab1" style="background: linear-gradient(45deg, #ff0000, #cc0000); color: white; border: none; padding: 15px 35px; border-radius: 30px; cursor: pointer; font-weight: 700; transition: all 0.3s; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(255,0,0,0.4); text-transform: uppercase; letter-spacing: 1px;">1</button>
+                <button onclick="showSection(2)" id="tab2" style="background: rgba(255,255,255,0.1); color: #ccc; border: 2px solid #666; padding: 15px 35px; border-radius: 30px; cursor: pointer; font-weight: 700; transition: all 0.3s; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">2</button>
+                <button onclick="showSection(3)" id="tab3" style="background: rgba(255,255,255,0.1); color: #ccc; border: 2px solid #666; padding: 15px 35px; border-radius: 30px; cursor: pointer; font-weight: 700; transition: all 0.3s; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">3</button>
+            </div>
+
+            <div id="section1" class="product-section">
+                <div class="products-grid">
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                            <span class="anonymous-badge">👤 Anonymous</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.8/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1133084017-612x612.jpg" alt="Visa $750">
+                    </div>
+                    <h3>Visa Card <strong>$750</strong></h3>
+
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$125</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card featured">
+                    <div class="featured-badge">Featured Deal</div>
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="verified-badge">🔒 Verified</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.9/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1175005292-612x612.jpg" alt="Visa €1200">
+                    </div>
+                    <h3>Visa Card <strong>$1200</strong></h3>
+
+                    <div class="no-otp-tag premium">⚡ Sans OTP - Premium</div>
+                    <div class="price">$185</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card sold-out">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="unavailable-badge">⚠️ Unavailable</span>
+                            <span class="restock-badge">🔄 Soon</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.7/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1209589766-612x612.jpg" alt="Visa $2500">
+                    </div>
+                    <h3>Visa Card <strong>$2500</strong></h3>
+
+                    <div class="price">$420</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                            <span class="anonymous-badge">👤 Anonymous</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.6/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1224290805-612x612.jpg" alt="Visa €950">
+                    </div>
+                    <h3>Visa Card <strong>$950</strong></h3>
+
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$155</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.8/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1225390893-612x612.jpg" alt="Visa $3200">
+                    </div>
+                    <h3>Visa Card <strong>$3200</strong></h3>
+
+                    <div class="no-otp-tag premium">⚡ OTP Free - Premium</div>
+                    <div class="price">$525</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card featured">
+                    <div class="featured-badge">Special Deal</div>
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="verified-badge">🔒 Verified</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>5.0/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1283834420-612x612.jpg" alt="Visa €6500">
+                    </div>
+                    <h3>Visa Card <strong>$6500</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(255,215,0,0.1); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4; border: 1px solid rgba(255,215,0,0.3);">
+                        <i class="fas fa-crown" style="color: #ffd700;"></i> <strong style="color: #ffd700;">Exclusive premium card - highest rated</strong><br>
+                        <i class="fas fa-fire" style="color: #ff3366;"></i> Most requested this month | <i class="fas fa-award" style="color: #9966ff;"></i> Exceptional quality<br>
+                        <i class="fas fa-university" style="color: #0066cc;"></i> Suitable for huge transactions | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> High-level security<br>
+                        <i class="fas fa-bolt" style="color: #ffcc00;"></i> Guaranteed instant activation | <i class="fas fa-globe-americas" style="color: #00cc66;"></i> 100% global acceptance
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Exclusive</div>
+                    <div class="price">$1150</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.4/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1354723175-612x612.jpg" alt="Visa $920">
+                    </div>
+                    <h3>Visa Card <strong>$920</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-bolt" style="color: #ffff00;"></i> <strong style="color: #ffff00;">Quick fast-activation card</strong><br>
+                        <i class="fas fa-credit-card" style="color: #0066cc;"></i> Suitable for fast transactions | <i class="fas fa-lock" style="color: #00cc66;"></i> Reliable security<br>
+                        <i class="fas fa-globe" style="color: #00cc66;"></i> Accepted in 150+ countries | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 2 minutes<br>
+                        <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent value for daily use
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$150</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card sold-out">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="unavailable-badge">⚠️ Unavailable</span>
+                            <span class="restock-badge">🔄 Soon</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.8/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1362845456-612x612.jpg" alt="Visa €3800">
+                    </div>
+                    <h3>Visa Card <strong>$3800</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.5); border-radius: 8px; margin: 10px 0; color: #999; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-fire" style="color: #ff6600;"></i> <strong style="color: #ff6600;">Max high-value card</strong><br>
+                        <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent 4.8 star rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Very high balance<br>
+                        <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> Perfect for European markets | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced protection<br>
+                        <i class="fas fa-exclamation-triangle" style="color: #ff4444;"></i> <strong style="color: #ff4444;">Sold out - coming back very soon</strong>
+                    </div>
+                    <div class="price">$625</div>
+                    <button class="add-to-cart">شراء الآن</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.7/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1438647339-612x612.jpg" alt="Visa €1650">
+                    </div>
+                    <h3>Visa Card <strong>$1650</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-briefcase" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Professional pro card</strong><br>
+                        <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> Perfect for European business | <i class="fas fa-lock" style="color: #00cc66;"></i> High security<br>
+                        <i class="fas fa-chart-line" style="color: #00ff00;"></i> 97% success rate | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 4 minutes<br>
+                        <i class="fas fa-bullseye" style="color: #ff6600;"></i> Specially designed for professionals and companies
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Professional</div>
+                    <div class="price">$270</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="anonymous-badge">👤 Anonymous</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.3/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1439103432-612x612.jpg" alt="Visa $1120">
+                    </div>
+                    <h3>Visa Card <strong>$1120</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fab fa-bitcoin" style="color: #ffff00;"></i> <strong style="color: #ffff00;">Encrypted crypto card</strong><br>
+                        <i class="fas fa-lock" style="color: #00cc66;"></i> Perfect for cryptocurrencies | <i class="fas fa-coins" style="color: #ffd700;"></i> Medium balance<br>
+                        <i class="fas fa-globe" style="color: #00cc66;"></i> Global acceptance | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 4 minutes<br>
+                        <i class="fas fa-mask" style="color: #9966ff;"></i> Completely anonymous identity - absolute privacy
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Anonymous</div>
+                    <div class="price">$185</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card featured">
+                    <div class="featured-badge">Gold Deal</div>
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="premium-badge">🏆 Gold</span>
+                            <span class="verified-badge">🔒 Verified</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>5.0/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-166078975-612x612.jpg" alt="Visa $6800">
+                    </div>
+                    <h3>Visa Card <strong>$6800</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(255,215,0,0.15); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4; border: 1px solid rgba(255,215,0,0.4);">
+                        <i class="fas fa-gem" style="color: #ffd700;"></i> <strong style="color: #ffd700;">Luxury premium card - gold deal!</strong><br>
+                        <i class="fas fa-trophy" style="color: #ffd700;"></i> Top seller with perfect rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Huge balance<br>
+                        <i class="fas fa-globe-americas" style="color: #00cc66;"></i> Premium global acceptance | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Highest security standards<br>
+                        <i class="fas fa-star" style="color: #ffcc00;"></i> Choice of elite and professional investors
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Gold</div>
+                    <div class="price">$1200</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.2/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-171247664-612x612.jpg" alt="Visa $580">
+                    </div>
+                    <h3>Visa Card <strong>$580</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-check-circle" style="color: #32cd32;"></i> <strong style="color: #32cd32;">Complete comprehensive card</strong><br>
+                        <i class="fas fa-credit-card" style="color: #0066cc;"></i> Integrated solution for all your needs | <i class="fas fa-globe" style="color: #00cc66;"></i> Global acceptance<br>
+                        <i class="fas fa-lock" style="color: #00cc66;"></i> Reliable security | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 3 minutes<br>
+                        <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent value for daily transactions
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$99</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.5/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-2177047070-612x612.jpg" alt="Visa €750">
+                    </div>
+                    <h3>Visa Card <strong>$750</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-rocket" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Next futuristic card</strong><br>
+                        <i class="fas fa-credit-card" style="color: #0066cc;"></i> Suitable for medium transactions | <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> European<br>
+                        <i class="fas fa-lock" style="color: #00cc66;"></i> Reliable security | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 5 minutes<br>
+                        <i class="fas fa-microchip" style="color: #9966ff;"></i> Modern technology for digital payment
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$125</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.6/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-2193129519-612x612.jpg" alt="Visa $1150">
+                    </div>
+                    <h3>Visa Card <strong>$1150</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-battery-full" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Super powerful card</strong><br>
+                        <i class="fas fa-coins" style="color: #ffd700;"></i> High balance for large transactions | <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent rating<br>
+                        <i class="fas fa-globe" style="color: #00cc66;"></i> Wide global acceptance | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 4 minutes<br>
+                        <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced protection against hacking
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Premium</div>
+                    <div class="price">$189</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.3/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-2193131193-612x612.jpg" alt="Visa €890">
+                    </div>
+                    <h3>Visa Card <strong>$890</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-seedling" style="color: #32cd32;"></i> <strong style="color: #32cd32;">Fresh new card</strong><br>
+                        <i class="fas fa-credit-card" style="color: #0066cc;"></i> Suitable for daily transactions | <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> European<br>
+                        <i class="fas fa-lock" style="color: #00cc66;"></i> Reliable security | <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent value<br>
+                        <i class="fas fa-bolt" style="color: #ffcc00;"></i> Instant activation with advanced technology
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$145</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.4/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-457099763-612x612.jpg" alt="Visa $1950">
+                    </div>
+                    <h3>Visa Card <strong>$1950</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-star" style="color: #00bfff;"></i> <strong style="color: #00bfff;">New modern card</strong><br>
+                        <i class="fas fa-coins" style="color: #ffd700;"></i> High balance for medium transactions | <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent rating<br>
+                        <i class="fas fa-globe" style="color: #00cc66;"></i> Wide global acceptance | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 4 minutes<br>
+                        <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced military encryption for protection
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$320</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.7/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-499193739-612x612.jpg" alt="Visa €2850">
+                    </div>
+                    <h3>Visa Card <strong>$2850</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-mobile-alt" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Modern contemporary card</strong><br>
+                        <i class="fas fa-trophy" style="color: #ffd700;"></i> High 4.7 star rating | <i class="fas fa-coins" style="color: #ffd700;"></i> High balance<br>
+                        <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> Perfect for modern business | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced security<br>
+                        <i class="fas fa-rocket" style="color: #ff3366;"></i> Smart technology for digital payment
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Modern</div>
+                    <div class="price">$470</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card featured">
+                    <div class="featured-badge">Final Deal</div>
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="premium-badge">🏆 Exclusive</span>
+                            <span class="verified-badge">🔒 Verified</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>5.0/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-527315075-612x612.jpg" alt="Visa $5850">
+                    </div>
+                    <h3>Visa Card <strong>$5850</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(255,0,0,0.15); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4; border: 1px solid rgba(255,0,0,0.4);">
+                        <i class="fas fa-fire" style="color: #ff0000;"></i> <strong style="color: #ff0000;">Exclusive final deal!</strong><br>
+                        <i class="fas fa-trophy" style="color: #ffd700;"></i> Top seller of all time | <i class="fas fa-coins" style="color: #ffd700;"></i> Huge balance<br>
+                        <i class="fas fa-exclamation-triangle" style="color: #ffff00;"></i> <strong style="color: #ffff00;">Last chance - don't miss it!</strong><br>
+                        <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Highest security and quality standards
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Exclusive</div>
+                    <div class="price">$1050</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.3/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-527343911-612x612.jpg" alt="Visa €1350">
+                    </div>
+                    <h3>Visa Card <strong>$1350</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-check-circle" style="color: #32cd32;"></i> <strong style="color: #32cd32;">Complete comprehensive card</strong><br>
+                        <i class="fas fa-credit-card" style="color: #0066cc;"></i> Integrated solution for all your needs | <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> European<br>
+                        <i class="fas fa-lock" style="color: #00cc66;"></i> Reliable security | <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent value<br>
+                        <i class="fas fa-bolt" style="color: #ffcc00;"></i> Instant activation with advanced technology
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$225</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card sold-out">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="unavailable-badge">⚠️ Unavailable</span>
+                            <span class="restock-badge">🔄 Soon</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.8/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-532963796-612x612.jpg" alt="Visa $4750">
+                    </div>
+                    <h3>Visa Card <strong>$4750</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.5); border-radius: 8px; margin: 10px 0; color: #999; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-flag-checkered" style="color: #ff6600;"></i> <strong style="color: #ff6600;">End high-value card</strong><br>
+                        <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent 4.8 rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Huge balance for investment<br>
+                        <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced military encryption | <i class="fas fa-globe" style="color: #00cc66;"></i> International acceptance<br>
+                        <i class="fas fa-exclamation-triangle" style="color: #ff4444;"></i> <strong style="color: #ff4444;">Sold out - coming back soon</strong>
+                    </div>
+                    <div class="price">$795</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.9/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-664221764-612x612.jpg" alt="Visa €3550">
+                    </div>
+                    <h3>Visa Card <strong>$3550</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-crown" style="color: #ffd700;"></i> <strong style="color: #ffd700;">Best card ever</strong><br>
+                        <i class="fas fa-trophy" style="color: #ffd700;"></i> High 4.9 star rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Very high balance<br>
+                        <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> Perfect for European business | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Absolute security<br>
+                        <i class="fas fa-star" style="color: #ffcc00;"></i> Choice of professionals and businessmen
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Excellent</div>
+                    <div class="price">$590</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.5/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-679230318-612x612.jpg" alt="Visa €1480">
+                    </div>
+                    <h3>Visa Card <strong>$1480</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-bolt" style="color: #00ff00;"></i> <strong style="color: #00ff00;">Instant immediate card</strong><br>
+                        <i class="fas fa-credit-card" style="color: #0066cc;"></i> Guaranteed instant activation | <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> Premium European<br>
+                        <i class="fas fa-lock" style="color: #00cc66;"></i> Reliable security | <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent medium balance<br>
+                        <i class="fas fa-rocket" style="color: #ff3366;"></i> Modern technology for digital payment
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$245</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.7/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-813263912-612x612.jpg" alt="Visa $2750">
+                    </div>
+                    <h3>Visa Card <strong>$2750</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-rocket" style="color: #ff6600;"></i> <strong style="color: #ff6600;">Express fast card</strong><br>
+                        <i class="fas fa-coins" style="color: #ffd700;"></i> High balance for projects | <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent rating<br>
+                        <i class="fas fa-globe" style="color: #00cc66;"></i> Wide global acceptance | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 3 minutes<br>
+                        <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced protection against hacking
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Fast</div>
+                    <div class="price">$450</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.3/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-93463122-612x612.jpg" alt="Visa €1050">
+                    </div>
+                    <h3>Visa Card <strong>$1050</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-bullseye" style="color: #32cd32;"></i> <strong style="color: #32cd32;">Direct immediate card</strong><br>
+                        <i class="fas fa-credit-card" style="color: #0066cc;"></i> Direct and fast transactions | <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> European<br>
+                        <i class="fas fa-lock" style="color: #00cc66;"></i> Reliable security | <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent value<br>
+                        <i class="fas fa-bolt" style="color: #ffcc00;"></i> Instant activation with advanced technology
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$175</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card sold-out">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="unavailable-badge">⚠️ Unavailable</span>
+                            <span class="restock-badge">🔄 Soon</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.9/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1133084017-612x612.jpg" alt="Visa $4950">
+                    </div>
+                    <h3>Visa Card <strong>$4950</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.5); border-radius: 8px; margin: 10px 0; color: #999; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-gem" style="color: #9d4edd;"></i> <strong style="color: #9d4edd;">Premium luxury card</strong><br>
+                        <i class="fas fa-trophy" style="color: #ffd700;"></i> High 4.9 star rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Very huge balance<br>
+                        <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced military encryption | <i class="fas fa-globe" style="color: #00cc66;"></i> International acceptance<br>
+                        <i class="fas fa-exclamation-triangle" style="color: #ff4444;"></i> <strong style="color: #ff4444;">Sold out - coming back soon</strong>
+                    </div>
+                    <div class="price">$825</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.4/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1175005292-612x612.jpg" alt="Visa €1850">
+                    </div>
+                    <h3>Visa Card <strong>$1850</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-rocket" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Advanced card</strong><br>
+                        <i class="fas fa-laptop" style="color: #9966ff;"></i> Advanced technology and features | <i class="fas fa-map-marker-alt" style="color: #0066cc;"></i> European<br>
+                        <i class="fas fa-lock" style="color: #00cc66;"></i> High security | <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent medium balance<br>
+                        <i class="fas fa-bolt" style="color: #ffcc00;"></i> Instant activation with smart technology
+                    </div>
+                    <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                    <div class="price">$305</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="seller-info">
+                        <div class="dark-badges">
+                            <span class="verified-badge">🔒 Available</span>
+                            <span class="premium-badge">🏆 Premium</span>
+                            <span class="instant-badge">⚡ Instant</span>
+                        </div>
+                        <div class="rating-only">
+                            <i class="fas fa-star"></i>
+                            <span>4.6/5</span>
+                        </div>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/VISA CARD/istockphoto-1209589766-612x612.jpg" alt="Visa $2150">
+                    </div>
+                    <h3>Visa Card <strong>$2150</strong></h3>
+                    <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                        <i class="fas fa-rocket" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Super powerful card</strong><br>
+                        <i class="fas fa-coins" style="color: #ffd700;"></i> High balance for large transactions | <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent rating<br>
+                        <i class="fas fa-globe" style="color: #00cc66;"></i> Wide global acceptance | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Activation in 4 minutes<br>
+                        <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced protection against hacking
+                    </div>
+                    <div class="no-otp-tag premium">⚡ OTP Free - Powerful</div>
+                    <div class="price">$355</div>
+                    <button class="add-to-cart">Buy Now</button>
+                </div>
+                </div>
+            </div>
+            
+            <!-- Section 2 -->
+            <div id="section2" class="product-section" style="display: none;">
+                <div class="products-grid">
+                    <div class="product-card featured">
+                        <div class="featured-badge">Premium Deal</div>
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="verified-badge">🔒 Verified</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.9/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1175005292-612x612.jpg" alt="Visa $5000">
+                        </div>
+                        <h3>Visa Card <strong>$5000</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(255,0,0,0.1); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4; border: 1px solid rgba(255,0,0,0.3);">
+                            <i class="fas fa-trophy" style="color: #ff6600;"></i> <strong style="color: #ff6600;">High-value premium card</strong><br>
+                            <i class="fas fa-shield" style="color: #0066cc;"></i> Enterprise-grade security | <i class="fas fa-globe" style="color: #00cc66;"></i> Global acceptance<br>
+                            <i class="fas fa-rocket" style="color: #ff3366;"></i> Instant activation | <i class="fas fa-coins" style="color: #ffd700;"></i> Perfect for large transactions<br>
+                            <i class="fas fa-star" style="color: #ffcc00;"></i> Most popular choice for professionals
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Premium</div>
+                        <div class="price">$850</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                                <span class="anonymous-badge">👤 Anonymous</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.7/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1133084017-612x612.jpg" alt="Visa $3500">
+                        </div>
+                        <h3>Visa Card <strong>$3500</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-gem" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Business-grade card</strong><br>
+                            <i class="fas fa-lock" style="color: #00cc66;"></i> Advanced encryption | <i class="fas fa-globe" style="color: #00cc66;"></i> 200+ countries accepted<br>
+                            <i class="fas fa-bolt" style="color: #ffcc00;"></i> 2-minute activation | <i class="fas fa-chart-line" style="color: #00ff00;"></i> 99% success rate<br>
+                            <i class="fas fa-briefcase" style="color: #0066cc;"></i> Perfect for corporate use
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                        <div class="price">$575</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.8/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1209589766-612x612.jpg" alt="Visa $4200">
+                        </div>
+                        <h3>Visa Card <strong>$4200</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-rocket" style="color: #32cd32;"></i> <strong style="color: #32cd32;">Elite performance card</strong><br>
+                            <i class="fas fa-university" style="color: #0066cc;"></i> Investment-grade limits | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Military encryption<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Unlimited global access | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Instant delivery<br>
+                            <i class="fas fa-star" style="color: #ffcc00;"></i> Top choice for high-value transactions
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Elite</div>
+                        <div class="price">$695</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.6/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1224290805-612x612.jpg" alt="Visa $2800">
+                        </div>
+                        <h3>Visa Card <strong>$2800</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-briefcase" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Professional card</strong><br>
+                            <i class="fas fa-lock" style="color: #00cc66;"></i> Secure transactions | <i class="fas fa-globe" style="color: #00cc66;"></i> Global acceptance<br>
+                            <i class="fas fa-bolt" style="color: #ffcc00;"></i> Fast activation | <i class="fas fa-chart-line" style="color: #00ff00;"></i> High success rate<br>
+                            <i class="fas fa-coins" style="color: #ffd700;"></i> Perfect for business use
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                        <div class="price">$465</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card featured">
+                        <div class="featured-badge">Hot Deal</div>
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="verified-badge">🔒 Verified</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.9/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1225390893-612x612.jpg" alt="Visa $3800">
+                        </div>
+                        <h3>Visa Card <strong>$3800</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(255,0,0,0.1); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4; border: 1px solid rgba(255,0,0,0.3);">
+                            <i class="fas fa-fire" style="color: #ff6600;"></i> <strong style="color: #ff6600;">Hot seller this month</strong><br>
+                            <i class="fas fa-trophy" style="color: #ffd700;"></i> Top rated card | <i class="fas fa-coins" style="color: #ffd700;"></i> High balance<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Worldwide acceptance | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Instant delivery<br>
+                            <i class="fas fa-star" style="color: #ffcc00;"></i> Customer favorite choice
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Hot</div>
+                        <div class="price">$625</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="anonymous-badge">👤 Anonymous</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.5/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1354723175-612x612.jpg" alt="Visa $3200">
+                        </div>
+                        <h3>Visa Card <strong>$3200</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-mask" style="color: #ffff00;"></i> <strong style="color: #ffff00;">Anonymous secure card</strong><br>
+                            <i class="fas fa-lock" style="color: #00cc66;"></i> Privacy focused | <i class="fas fa-coins" style="color: #ffd700;"></i> Medium-high balance<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Global network | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Quick activation<br>
+                            <i class="fas fa-user-secret" style="color: #9966ff;"></i> Complete anonymity guaranteed
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Anonymous</div>
+                        <div class="price">$525</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.4/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1362845456-612x612.jpg" alt="Visa $2950">
+                        </div>
+                        <h3>Visa Card <strong>$2950</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-bolt" style="color: #00ff00;"></i> <strong style="color: #00ff00;">Fast activation card</strong><br>
+                            <i class="fas fa-credit-card" style="color: #0066cc;"></i> Reliable transactions | <i class="fas fa-lock" style="color: #00cc66;"></i> Secure payments<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> International acceptance | <i class="fas fa-chart-line" style="color: #00ff00;"></i> Good success rate<br>
+                            <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent value for money
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                        <div class="price">$485</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card sold-out">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="unavailable-badge">⚠️ Unavailable</span>
+                                <span class="restock-badge">🔄 Soon</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.8/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1438647339-612x612.jpg" alt="Visa $4500">
+                        </div>
+                        <h3>Visa Card <strong>$4500</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.5); border-radius: 8px; margin: 10px 0; color: #999; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-fire" style="color: #ff6600;"></i> <strong style="color: #ff6600;">High-demand card</strong><br>
+                            <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Premium balance<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Global premium access | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Top security<br>
+                            <i class="fas fa-exclamation-triangle" style="color: #ff4444;"></i> <strong style="color: #ff4444;">Sold out - restocking soon</strong>
+                        </div>
+                        <div class="price">$745</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.7/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1439103432-612x612.jpg" alt="Visa $3600">
+                        </div>
+                        <h3>Visa Card <strong>$3600</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-briefcase" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Corporate grade card</strong><br>
+                            <i class="fas fa-building" style="color: #0066cc;"></i> Business features | <i class="fas fa-coins" style="color: #ffd700;"></i> High transaction limits<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Premium global network | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Fast processing<br>
+                            <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Enhanced security protocols
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Corporate</div>
+                        <div class="price">$595</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.3/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-166078975-612x612.jpg" alt="Visa $2750">
+                        </div>
+                        <h3>Visa Card <strong>$2750</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-certificate" style="color: #32cd32;"></i> <strong style="color: #32cd32;">Standard premium card</strong><br>
+                            <i class="fas fa-credit-card" style="color: #0066cc;"></i> Reliable performance | <i class="fas fa-lock" style="color: #00cc66;"></i> Secure transactions<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Wide acceptance | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Quick setup<br>
+                            <i class="fas fa-coins" style="color: #ffd700;"></i> Good balance for daily use
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                        <div class="price">$455</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card featured">
+                        <div class="featured-badge">Special Offer</div>
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="verified-badge">🔒 Verified</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.9/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-171247664-612x612.jpg" alt="Visa $4100">
+                        </div>
+                        <h3>Visa Card <strong>$4100</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(255,215,0,0.1); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4; border: 1px solid rgba(255,215,0,0.3);">
+                            <i class="fas fa-star" style="color: #ffd700;"></i> <strong style="color: #ffd700;">Special limited offer</strong><br>
+                            <i class="fas fa-trophy" style="color: #ffd700;"></i> Top performance rating | <i class="fas fa-coins" style="color: #ffd700;"></i> High balance<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Premium global access | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Instant activation<br>
+                            <i class="fas fa-fire" style="color: #ff3366;"></i> Limited time availability
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Special</div>
+                        <div class="price">$675</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="anonymous-badge">👤 Anonymous</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.6/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-2177047070-612x612.jpg" alt="Visa $3100">
+                        </div>
+                        <h3>Visa Card <strong>$3100</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-rocket" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Modern tech card</strong><br>
+                            <i class="fas fa-mobile-alt" style="color: #9966ff;"></i> Digital-first design | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced security<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Global compatibility | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Fast processing<br>
+                            <i class="fas fa-user-secret" style="color: #9966ff;"></i> Privacy-focused features
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Modern</div>
+                        <div class="price">$515</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.8/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-2193129519-612x612.jpg" alt="Visa $3900">
+                        </div>
+                        <h3>Visa Card <strong>$3900</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-battery-full" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Power performance card</strong><br>
+                            <i class="fas fa-dumbbell" style="color: #ff6600;"></i> High-capacity limits | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Robust security<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Extensive network | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Rapid activation<br>
+                            <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent customer rating
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Power</div>
+                        <div class="price">$645</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.5/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-2193131193-612x612.jpg" alt="Visa $2650">
+                        </div>
+                        <h3>Visa Card <strong>$2650</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-seedling" style="color: #32cd32;"></i> <strong style="color: #32cd32;">Fresh premium card</strong><br>
+                            <i class="fas fa-credit-card" style="color: #0066cc;"></i> Reliable daily use | <i class="fas fa-lock" style="color: #00cc66;"></i> Standard security<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Good global reach | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Quick setup<br>
+                            <i class="fas fa-coins" style="color: #ffd700;"></i> Balanced features and price
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                        <div class="price">$435</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.4/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-457099763-612x612.jpg" alt="Visa $3300">
+                        </div>
+                        <h3>Visa Card <strong>$3300</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-star" style="color: #00bfff;"></i> <strong style="color: #00bfff;">New generation card</strong><br>
+                            <i class="fas fa-coins" style="color: #ffd700;"></i> Medium-high balance | <i class="fas fa-trophy" style="color: #ffd700;"></i> Good rating<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Wide acceptance | <i class="fas fa-bolt" style="color: #ffcc00;"></i> Fast activation<br>
+                            <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced encryption protection
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                        <div class="price">$545</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3 -->
+            <div id="section3" class="product-section" style="display: none;">
+                <div class="products-grid">
+                    <div class="product-card featured">
+                        <div class="featured-badge">Exclusive Deal</div>
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="premium-badge">🏆 Exclusive</span>
+                                <span class="verified-badge">🔒 Verified</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>5.0/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1283834420-612x612.jpg" alt="Visa $8500">
+                        </div>
+                        <h3>Visa Card <strong>$8500</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(255,215,0,0.1); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4; border: 1px solid rgba(255,215,0,0.3);">
+                            <i class="fas fa-crown" style="color: #ffd700;"></i> <strong style="color: #ffd700;">Ultra-premium exclusive card</strong><br>
+                            <i class="fas fa-fire" style="color: #ff3366;"></i> Highest rating available | <i class="fas fa-award" style="color: #9966ff;"></i> Exceptional quality<br>
+                            <i class="fas fa-university" style="color: #0066cc;"></i> Perfect for major investments | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Maximum security<br>
+                            <i class="fas fa-bolt" style="color: #ffcc00;"></i> VIP instant activation | <i class="fas fa-globe-americas" style="color: #00cc66;"></i> Platinum global access
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Exclusive</div>
+                        <div class="price">$1450</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.9/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-1225390893-612x612.jpg" alt="Visa $7200">
+                        </div>
+                        <h3>Visa Card <strong>$7200</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-rocket" style="color: #ff6600;"></i> <strong style="color: #ff6600;">Ultra high-performance card</strong><br>
+                            <i class="fas fa-building" style="color: #0066cc;"></i> Enterprise-level features | <i class="fas fa-coins" style="color: #ffd700;"></i> Maximum balance<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Premium global network | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Advanced protection<br>
+                            <i class="fas fa-star" style="color: #ffcc00;"></i> Choice of elite professionals
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Ultra</div>
+                        <div class="price">$1250</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card sold-out">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="unavailable-badge">⚠️ Unavailable</span>
+                                <span class="restock-badge">🔄 Soon</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.8/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-166078975-612x612.jpg" alt="Visa $9500">
+                        </div>
+                        <h3>Visa Card <strong>$9500</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.5); border-radius: 8px; margin: 10px 0; color: #999; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-gem" style="color: #9d4edd;"></i> <strong style="color: #9d4edd;">Ultimate luxury card</strong><br>
+                            <i class="fas fa-trophy" style="color: #ffd700;"></i> Highest tier available | <i class="fas fa-coins" style="color: #ffd700;"></i> Maximum possible balance<br>
+                            <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Military-grade encryption | <i class="fas fa-globe" style="color: #00cc66;"></i> VIP global acceptance<br>
+                            <i class="fas fa-exclamation-triangle" style="color: #ff4444;"></i> <strong style="color: #ff4444;">Sold out - restocking soon</strong>
+                        </div>
+                        <div class="price">$1650</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.7/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-499193739-612x612.jpg" alt="Visa $6800">
+                        </div>
+                        <h3>Visa Card <strong>$6800</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-mobile-alt" style="color: #00bfff;"></i> <strong style="color: #00bfff;">Modern elite card</strong><br>
+                            <i class="fas fa-trophy" style="color: #ffd700;"></i> High rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Premium balance<br>
+                            <i class="fas fa-globe" style="color: #00cc66;"></i> Elite global network | <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Top security<br>
+                            <i class="fas fa-rocket" style="color: #ff3366;"></i> Smart technology integration
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Modern</div>
+                        <div class="price">$1150</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card featured">
+                        <div class="featured-badge">VIP Deal</div>
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="premium-badge">🏆 VIP</span>
+                                <span class="verified-badge">🔒 Verified</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>5.0/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-527315075-612x612.jpg" alt="Visa $9200">
+                        </div>
+                        <h3>Visa Card <strong>$9200</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(255,0,0,0.15); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4; border: 1px solid rgba(255,0,0,0.4);">
+                            <i class="fas fa-fire" style="color: #ff0000;"></i> <strong style="color: #ff0000;">VIP exclusive deal!</strong><br>
+                            <i class="fas fa-trophy" style="color: #ffd700;"></i> Perfect rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Maximum balance<br>
+                            <i class="fas fa-exclamation-triangle" style="color: #ffff00;"></i> <strong style="color: #ffff00;">Limited VIP access only!</strong><br>
+                            <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Ultimate security standards
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - VIP</div>
+                        <div class="price">$1550</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.6/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-527343911-612x612.jpg" alt="Visa $5900">
+                        </div>
+                        <h3>Visa Card <strong>$5900</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-check-circle" style="color: #32cd32;"></i> <strong style="color: #32cd32;">Complete solution card</strong><br>
+                            <i class="fas fa-credit-card" style="color: #0066cc;"></i> All-in-one features | <i class="fas fa-globe" style="color: #00cc66;"></i> Global access<br>
+                            <i class="fas fa-lock" style="color: #00cc66;"></i> Reliable security | <i class="fas fa-coins" style="color: #ffd700;"></i> Excellent value<br>
+                            <i class="fas fa-bolt" style="color: #ffcc00;"></i> Instant activation technology
+                        </div>
+                        <div class="no-otp-tag">🚫 OTP Free - Ready Instantly</div>
+                        <div class="price">$985</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="seller-info">
+                            <div class="dark-badges">
+                                <span class="verified-badge">🔒 Available</span>
+                                <span class="premium-badge">🏆 Premium</span>
+                                <span class="instant-badge">⚡ Instant</span>
+                            </div>
+                            <div class="rating-only">
+                                <i class="fas fa-star"></i>
+                                <span>4.8/5</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/VISA CARD/istockphoto-532963796-612x612.jpg" alt="Visa $7500">
+                        </div>
+                        <h3>Visa Card <strong>$7500</strong></h3>
+                        <div class="product-description" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; color: #ddd; font-size: 0.85rem; line-height: 1.4;">
+                            <i class="fas fa-flag-checkered" style="color: #ff6600;"></i> <strong style="color: #ff6600;">Ultimate high-value card</strong><br>
+                            <i class="fas fa-trophy" style="color: #ffd700;"></i> Excellent rating | <i class="fas fa-coins" style="color: #ffd700;"></i> Investment-grade balance<br>
+                            <i class="fas fa-shield-alt" style="color: #00cc66;"></i> Military encryption | <i class="fas fa-globe" style="color: #00cc66;"></i> International access<br>
+                            <i class="fas fa-star" style="color: #ffcc00;"></i> Choice of elite investors
+                        </div>
+                        <div class="no-otp-tag premium">⚡ OTP Free - Ultimate</div>
+                        <div class="price">$1275</div>
+                        <button class="add-to-cart">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                function showSection(num) {
+                    // Hide all sections
+                    document.getElementById('section1').style.display = 'none';
+                    document.getElementById('section2').style.display = 'none';
+                    document.getElementById('section3').style.display = 'none';
+                    
+                    // Reset all tabs
+                    document.getElementById('tab1').style.background = 'rgba(255,255,255,0.1)';
+                    document.getElementById('tab1').style.color = '#ccc';
+                    document.getElementById('tab1').style.border = '2px solid #666';
+                    document.getElementById('tab2').style.background = 'rgba(255,255,255,0.1)';
+                    document.getElementById('tab2').style.color = '#ccc';
+                    document.getElementById('tab2').style.border = '2px solid #666';
+                    document.getElementById('tab3').style.background = 'rgba(255,255,255,0.1)';
+                    document.getElementById('tab3').style.color = '#ccc';
+                    document.getElementById('tab3').style.border = '2px solid #666';
+                    
+                    // Show selected section and activate tab
+                    document.getElementById('section' + num).style.display = 'block';
+                    document.getElementById('tab' + num).style.background = 'linear-gradient(45deg, #ff0000, #cc0000)';
+                    document.getElementById('tab' + num).style.color = 'white';
+                    document.getElementById('tab' + num).style.border = 'none';
+                }
+            </script>
+            
+            <!-- Professional Payment Modal -->
+            <div id="paymentModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(8px);">
+                <div style="background: linear-gradient(145deg, #0f0f0f, #1a1a1a); border-radius: 24px; border: 1px solid #333; max-width: 420px; width: 90%; box-shadow: 0 25px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.05); overflow: hidden; position: relative;">
+                    
+                    <!-- Glow Effect -->
+                    <div style="position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, #ff6b35, #f7931e, #26a69a, #4CAF50); border-radius: 24px; z-index: -1; opacity: 0.1;"></div>
+                    
+                    <!-- Header -->
+                    <div style="background: linear-gradient(135deg, #1a1a1a, #0f0f0f); padding: 25px; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(45deg, #ff6b35, #f7931e); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 8px 25px rgba(255,107,53,0.3);">₿</div>
+                                <div>
+                                    <h3 style="color: #fff; margin: 0; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px;">Secure Payment</h3>
+                                    <p style="color: #888; margin: 0; font-size: 0.8rem; font-weight: 500;">Cryptocurrency Gateway</p>
+                                </div>
+                            </div>
+                            <button onclick="closePaymentModal()" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #ccc; font-size: 1.2rem; cursor: pointer; padding: 8px; width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; backdrop-filter: blur(10px);">×</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product Summary -->
+                    <div style="padding: 25px; background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <div style="position: relative;">
+                                <img id="productImage" style="width: 64px; height: 64px; border-radius: 16px; object-fit: cover; border: 2px solid rgba(255,255,255,0.1);">
+                                <div style="position: absolute; -top: 2px; -left: 2px; -right: 2px; -bottom: 2px; background: linear-gradient(45deg, #4CAF50, #26a69a); border-radius: 18px; z-index: -1; opacity: 0.3;"></div>
+                            </div>
+                            <div style="flex: 1;">
+                                <h4 id="productName" style="color: #fff; margin: 0 0 8px 0; font-size: 1rem; font-weight: 600; line-height: 1.3;"></h4>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: #888; font-size: 0.85rem; font-weight: 500;">Total Amount</span>
+                                    <div id="productPrice" style="color: #4CAF50; font-size: 1.3rem; font-weight: 800; text-shadow: 0 0 10px rgba(76,175,80,0.3);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Methods -->
+                    <div style="padding: 25px;">
+                        <h4 style="color: #fff; margin: 0 0 20px 0; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                            <span style="width: 20px; height: 20px; background: linear-gradient(45deg, #4CAF50, #26a69a); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">💳</span>
+                            Select Payment Method
+                        </h4>
+                        
+                        <!-- Bitcoin -->
+                        <div id="btcOption" style="background: linear-gradient(135deg, rgba(247,147,30,0.15), rgba(255,107,53,0.1)); border: 2px solid rgba(247,147,30,0.4); border-radius: 16px; padding: 20px; margin-bottom: 16px; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: radial-gradient(circle, rgba(247,147,30,0.2) 0%, transparent 70%); pointer-events: none;"></div>
+                            <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="width: 44px; height: 44px; background: linear-gradient(45deg, #f7931e, #ff6b35); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(247,147,30,0.3);">
+                                        <img src="imgs/6180cdb6-8480-4a3c-a8a9-8a193a89fc5e.png" style="width: 28px; height: 28px; border-radius: 50%;" alt="Bitcoin">
+                                    </div>
+                                    <div>
+                                        <div style="color: #f7931e; font-size: 1rem; font-weight: 700; margin-bottom: 2px;">Bitcoin</div>
+                                        <div style="color: #999; font-size: 0.75rem; font-weight: 500;">BTC • Bitcoin Network</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div id="btcAmount" style="color: #f7931e; font-size: 0.9rem; font-weight: 700;"></div>
+                                    <div style="color: #666; font-size: 0.7rem; margin-top: 2px;">Recommended</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- USDT -->
+                        <div id="usdtOption" style="background: linear-gradient(135deg, rgba(38,166,154,0.15), rgba(0,200,83,0.1)); border: 2px solid rgba(38,166,154,0.4); border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: radial-gradient(circle, rgba(38,166,154,0.2) 0%, transparent 70%); pointer-events: none;"></div>
+                            <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="width: 44px; height: 44px; background: linear-gradient(45deg, #26a69a, #00c853); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(38,166,154,0.3);">
+                                        <img src="imgs/87496d50-2408-43e1-ad4c-78b47b448a6a.png" style="width: 28px; height: 28px; border-radius: 50%;" alt="USDT">
+                                    </div>
+                                    <div>
+                                        <div style="color: #26a69a; font-size: 1rem; font-weight: 700; margin-bottom: 2px;">Tether</div>
+                                        <div style="color: #999; font-size: 0.75rem; font-weight: 500;">USDT • TRC20 Network</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div id="usdtAmount" style="color: #26a69a; font-size: 0.9rem; font-weight: 700;"></div>
+                                    <div style="color: #666; font-size: 0.7rem; margin-top: 2px;">Stable Coin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Details -->
+                    <div id="paymentDetails" style="display: none; padding: 0 25px 25px;">
+                        <div style="background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.4)); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; backdrop-filter: blur(10px);">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                                <div style="width: 24px; height: 24px; background: linear-gradient(45deg, #4CAF50, #26a69a); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">💳</div>
+                                <span style="color: #fff; font-size: 0.9rem; font-weight: 600;">Payment Address</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-bottom: 15px;">
+                                <div id="walletAddress" style="font-family: 'Courier New', monospace; color: #fff; font-size: 0.8rem; word-break: break-all; line-height: 1.5; text-align: center;"></div>
+                            </div>
+                            <button id="copyButton" style="background: linear-gradient(45deg, #4CAF50, #26a69a); color: white; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; width: 100%; transition: all 0.3s; box-shadow: 0 8px 25px rgba(76,175,80,0.3); display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                <span style="font-size: 1rem;">📋</span>
+                                Copy Address
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div style="background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2)); padding: 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px;">
+                            <div style="width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 10px rgba(76,175,80,0.5);"></div>
+                            <span style="color: #4CAF50; font-size: 0.85rem; font-weight: 600;">Instant Delivery Guaranteed</span>
+                        </div>
+                        <p style="color: #888; font-size: 0.75rem; margin: 0; line-height: 1.4;">🔒 Bank-grade security • 📧 Delivered in 5-10 minutes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Trust Section -->
+    <section style="background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%); padding: 60px 0; border-top: 1px solid #ff0000;">
+        <div class="container">
+            <h2 style="text-align: center; color: #ff0000; margin-bottom: 40px; font-size: 2rem; text-shadow: 0 0 10px rgba(255,0,0,0.5);">Security & Privacy Guarantees</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div style="background: rgba(255,0,0,0.1); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,0,0,0.3); text-align: center;">
+                    <i class="fas fa-user-secret" style="font-size: 3rem; color: #ff0000; margin-bottom: 15px;"></i>
+                    <h3 style="color: #ff0000; margin-bottom: 10px;">100% Anonymous Identity</h3>
+                    <p style="color: #ddd; font-size: 0.9rem;">We do not keep any personal information or records. All transactions are encrypted and completely anonymous.</p>
+                </div>
+                <div style="background: rgba(0,255,0,0.1); padding: 25px; border-radius: 15px; border: 1px solid rgba(0,255,0,0.3); text-align: center;">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: #00ff00; margin-bottom: 15px;"></i>
+                    <h3 style="color: #00ff00; margin-bottom: 10px;">Advanced Encryption</h3>
+                    <p style="color: #ddd; font-size: 0.9rem;">Advanced AES-256 encryption technology. Your data is protected by the highest global security standards.</p>
+                </div>
+                <div style="background: rgba(255,165,0,0.1); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,165,0,0.3); text-align: center;">
+                    <img src="imgs/87496d50-2408-43e1-ad4c-78b47b448a6a.png" alt="Bitcoin" style="width: 48px; height: 48px; margin-bottom: 15px;">
+                    <h3 style="color: #ff9500; margin-bottom: 10px;">Bitcoin Payment Only</h3>
+                    <p style="color: #ddd; font-size: 0.9rem;">We accept Bitcoin only. You must convert the amount to Bitcoin before payment. No banks or intermediaries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section style="background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%); padding: 80px 0; border-top: 1px solid #ff0000;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="color: #ff0000; font-size: 2.5rem; margin-bottom: 15px; text-shadow: 0 0 10px rgba(255,0,0,0.5);">What Our Customers Say</h2>
+                <p style="color: #ccc; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Real feedback from satisfied customers worldwide</p>
+            </div>
+            
+            <div style="max-width: 900px; margin: 0 auto; position: relative;">
+                <div id="review1" class="review-slide" style="background: rgba(0,0,0,0.7); border: 1px solid #333; border-radius: 15px; padding: 30px; backdrop-filter: blur(10px);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #ff0000; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-ghost" style="color: white; font-size: 1.2rem;"></i>
+                            </div>
+                            <h4 style="color: #fff; margin: 0; font-size: 1.1rem;">ID: #qw8x5n2k7m9p</h4>
+                        </div>
+                        <div style="display: flex; gap: 3px;">
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                        </div>
+                    </div>
+                    <p style="color: #ddd; font-size: 1rem; line-height: 1.6; margin: 0 0 15px 0; font-style: italic;">"💰 MILLIONAIRE MAKER! Got my $8500 Visa card instantly. Already made $50K in crypto trades. This is FINANCIAL FREEDOM!"</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #00ff00; font-size: 0.85rem;"><i class="fas fa-check-circle"></i> Verified Purchase</span>
+                        <span style="color: #888; font-size: 0.8rem;">2 days ago</span>
+                    </div>
+                </div>
+                
+                <div id="review2" class="review-slide" style="background: rgba(0,0,0,0.7); border: 1px solid #333; border-radius: 15px; padding: 30px; backdrop-filter: blur(10px); display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #ff0000; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-ghost" style="color: white; font-size: 1.2rem;"></i>
+                            </div>
+                            <h4 style="color: #fff; margin: 0; font-size: 1.1rem;">ID: #rt3y9k6m2x8w</h4>
+                        </div>
+                        <div style="display: flex; gap: 3px;">
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="far fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                        </div>
+                    </div>
+                    <p style="color: #ddd; font-size: 1rem; line-height: 1.6; margin: 0 0 15px 0; font-style: italic;">"🚀 LIFE CHANGING! Bought 15 Visa cards worth $75K total. Every transaction FLAWLESS. My business is now UNSTOPPABLE!"</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #00ff00; font-size: 0.85rem;"><i class="fas fa-check-circle"></i> Verified Purchase</span>
+                        <span style="color: #888; font-size: 0.8rem;">1 week ago</span>
+                    </div>
+                </div>
+                
+                <div id="review3" class="review-slide" style="background: rgba(0,0,0,0.7); border: 1px solid #333; border-radius: 15px; padding: 30px; backdrop-filter: blur(10px); display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #ff0000; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-ghost" style="color: white; font-size: 1.2rem;"></i>
+                            </div>
+                            <h4 style="color: #fff; margin: 0; font-size: 1.1rem;">ID: #lp4z7n9k3x6m</h4>
+                        </div>
+                        <div style="display: flex; gap: 3px;">
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star-half-alt" style="color: #ff0000; font-size: 1rem;"></i>
+                        </div>
+                    </div>
+                    <p style="color: #ddd; font-size: 1rem; line-height: 1.6; margin: 0 0 15px 0; font-style: italic;">"⚡ PURE GENIUS! Zero paperwork, Bitcoin payment, instant Visa delivery. Spent $25K online in 24 hours. COMPLETELY ANONYMOUS!"</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #00ff00; font-size: 0.85rem;"><i class="fas fa-check-circle"></i> Verified Purchase</span>
+                        <span style="color: #888; font-size: 0.8rem;">3 days ago</span>
+                    </div>
+                </div>
+                
+                <div id="review4" class="review-slide" style="background: rgba(0,0,0,0.7); border: 1px solid #333; border-radius: 15px; padding: 30px; backdrop-filter: blur(10px); display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #ff0000; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-ghost" style="color: white; font-size: 1.2rem;"></i>
+                            </div>
+                            <h4 style="color: #fff; margin: 0; font-size: 1.1rem;">ID: #ar8m5k2x9w7q</h4>
+                        </div>
+                        <div style="display: flex; gap: 3px;">
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                        </div>
+                    </div>
+                    <p style="color: #ddd; font-size: 1rem; line-height: 1.6; margin: 0 0 15px 0; font-style: italic;">"🔥 خدمة ممتازة جداً! اشتريت بطاقة فيزا بقيمة 5000 دولار وعملت فوراً بدون أي مشاكل. الدفع بالبيتكوين آمن تماماً والتسليم فوري!"</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #00ff00; font-size: 0.85rem;"><i class="fas fa-check-circle"></i> Verified Purchase</span>
+                        <span style="color: #888; font-size: 0.8rem;">1 day ago</span>
+                    </div>
+                </div>
+                
+                <div id="review5" class="review-slide" style="background: rgba(0,0,0,0.7); border: 1px solid #333; border-radius: 15px; padding: 30px; backdrop-filter: blur(10px); display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #ff0000; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-ghost" style="color: white; font-size: 1.2rem;"></i>
+                            </div>
+                            <h4 style="color: #fff; margin: 0; font-size: 1.1rem;">ID: #fr3n8k5m2x9w</h4>
+                        </div>
+                        <div style="display: flex; gap: 3px;">
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                            <i class="far fa-star" style="color: #ff0000; font-size: 1rem;"></i>
+                        </div>
+                    </div>
+                    <p style="color: #ddd; font-size: 1rem; line-height: 1.6; margin: 0 0 15px 0; font-style: italic;">"💎 Service exceptionnel! J'ai acheté une carte Visa de 3200€ et elle fonctionne parfaitement. Livraison instantanée, paiement Bitcoin sécurisé. Je recommande vivement!"</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #00ff00; font-size: 0.85rem;"><i class="fas fa-check-circle"></i> Verified Purchase</span>
+                        <span style="color: #888; font-size: 0.8rem;">4 days ago</span>
+                    </div>
+                </div>
+            </div>
+            
+
+            
+            <!-- Add Review Button -->
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="openReviewModal()" style="background: linear-gradient(45deg, #ff0000, #cc0000); color: white; border: none; padding: 15px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; font-size: 1rem; box-shadow: 0 5px 15px rgba(255,0,0,0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(255,0,0,0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(255,0,0,0.3)'">
+                    Add Your Anonymous Review
+                </button>
+            </div>
+            
+
+        </div>
+        
+        <script>
+            let currentReviewIndex = 1;
+            
+            function showReview(index) {
+                const reviews = document.querySelectorAll('.review-slide');
+                reviews.forEach(review => review.style.display = 'none');
+                if (reviews[index - 1]) {
+                    reviews[index - 1].style.display = 'block';
+                }
+                document.getElementById('counter').textContent = index + ' / ' + reviews.length;
+            }
+            
+            function nextReview() {
+                const totalReviews = document.querySelectorAll('.review-slide').length;
+                currentReviewIndex = currentReviewIndex === totalReviews ? 1 : currentReviewIndex + 1;
+                showReview(currentReviewIndex);
+            }
+            
+            function prevReview() {
+                const totalReviews = document.querySelectorAll('.review-slide').length;
+                currentReviewIndex = currentReviewIndex === 1 ? totalReviews : currentReviewIndex - 1;
+                showReview(currentReviewIndex);
+            }
+            
+            // Auto-slide every 6 seconds
+            setInterval(nextReview, 6000);
+            
+            // Load user review on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                const savedReview = localStorage.getItem('userReview');
+                if (savedReview) {
+                    const userReview = JSON.parse(savedReview);
+                    const newReview = document.createElement('div');
+                    newReview.className = 'review-slide user-review';
+                    newReview.style.cssText = 'background: rgba(0,50,0,0.7); border: 2px solid #00ff00; border-radius: 15px; padding: 30px; backdrop-filter: blur(10px); display: none; box-shadow: 0 0 20px rgba(0,255,0,0.3);';
+                    
+                    newReview.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="width: 50px; height: 50px; background: #00ff00; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-user" style="color: black; font-size: 1.2rem;"></i>
+                                </div>
+                                <h4 style="color: #00ff00; margin: 0; font-size: 1.1rem;">ID: ${userReview.id}</h4>
+                            </div>
+                            <div style="display: flex; gap: 3px;">
+                                <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                                <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                                <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                                <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                                <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                            </div>
+                        </div>
+                        <p style="color: #ddd; font-size: 1rem; line-height: 1.6; margin: 0 0 15px 0; font-style: italic;">"${userReview.text}"</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #00ff00; font-size: 0.85rem;"><i class="fas fa-user-check"></i> Your Review</span>
+                            <span style="color: #888; font-size: 0.8rem;">Just now</span>
+                        </div>
+                    `;
+                    
+                    document.querySelector('#review5').parentNode.appendChild(newReview);
+                }
+            });
+            
+            function openReviewModal() {
+                document.getElementById('reviewModal').style.display = 'flex';
+            }
+            
+            function closeReviewModal() {
+                document.getElementById('reviewModal').style.display = 'none';
+            }
+            
+            function addAnonymousReview() {
+                const reviewText = document.getElementById('reviewText').value;
+                if (!reviewText) {
+                    alert('Please provide review text.');
+                    return;
+                }
+                
+                const userId = '#' + Math.random().toString(36).substr(2, 12);
+                const userReview = {
+                    id: userId,
+                    text: reviewText,
+                    timestamp: Date.now()
+                };
+                
+                localStorage.setItem('userReview', JSON.stringify(userReview));
+                
+                const newReview = document.createElement('div');
+                newReview.className = 'review-slide user-review';
+                newReview.style.cssText = 'background: rgba(0,50,0,0.7); border: 2px solid #00ff00; border-radius: 15px; padding: 30px; backdrop-filter: blur(10px); display: none; box-shadow: 0 0 20px rgba(0,255,0,0.3);';
+                
+                newReview.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: #00ff00; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user" style="color: black; font-size: 1.2rem;"></i>
+                            </div>
+                            <h4 style="color: #00ff00; margin: 0; font-size: 1.1rem;">ID: ${userId}</h4>
+                        </div>
+                        <div style="display: flex; gap: 3px;">
+                            <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                            <i class="fas fa-star" style="color: #00ff00; font-size: 1rem;"></i>
+                        </div>
+                    </div>
+                    <p style="color: #ddd; font-size: 1rem; line-height: 1.6; margin: 0 0 15px 0; font-style: italic;">"${reviewText}"</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #00ff00; font-size: 0.85rem;"><i class="fas fa-user-check"></i> Your Review</span>
+                        <span style="color: #888; font-size: 0.8rem;">Just now</span>
+                    </div>
+                `;
+                
+                document.querySelector('#review5').parentNode.appendChild(newReview);
+                currentReviewIndex = document.querySelectorAll('.review-slide').length;
+                showReview(currentReviewIndex);
+                closeReviewModal();
+                document.getElementById('reviewText').value = '';
+                alert('Your review has been posted successfully!');
+            }
+        </script>
+        
+        <!-- Review Modal -->
+        <div id="reviewModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+            <div style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d); padding: 30px; border-radius: 15px; border: 2px solid #ff0000; max-width: 500px; width: 90%; box-shadow: 0 20px 60px rgba(255,0,0,0.4);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #ff0000; margin: 0; font-size: 1.2rem;">Add Your Anonymous Review</h3>
+                    <button onclick="closeReviewModal()" style="background: none; border: none; color: #ff0000; font-size: 1.5rem; cursor: pointer;">×</button>
+                </div>
+                <textarea id="reviewText" placeholder="Share your experience with our Visa cards... (100% Anonymous)" style="width: 100%; height: 100px; background: rgba(0,0,0,0.5); border: 1px solid #666; border-radius: 8px; padding: 10px; color: #ddd; font-size: 0.9rem; resize: vertical; box-sizing: border-box;"></textarea>
+                <button onclick="addAnonymousReview()" style="background: linear-gradient(45deg, #ff0000, #cc0000); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 15px; width: 100%;">Post Anonymously</button>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer" style="background: linear-gradient(135deg, #0a0a0a, #1a0a0a); border-top: 2px solid #ff0000; padding: 40px 0 20px;">
+        <div class="container">
+            <div class="footer-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 30px;">
+                <div class="footer-section">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="position: relative; width: 50px; height: 50px; margin-right: 15px;">
+                            <i class="fab fa-cc-visa" style="width: 100%; height: 100%; font-size: 50px; color: #ff0000; filter: drop-shadow(0 0 20px rgba(255,0,0,0.8)) drop-shadow(0 0 40px rgba(255,0,0,0.4)); border-radius: 12px;"></i>
+                            <div style="position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; border: 2px solid rgba(255,0,0,0.3); border-radius: 14px; animation: logoRing 4s linear infinite; pointer-events: none;"></div>
+                        </div>
+                        <div>
+                            <h3 style="color: #ff0000; font-size: 1.2rem; margin: 0;">VISA</h3>
+                            <p style="color: #888; font-size: 0.8rem; margin: 2px 0 0 0;">Premium Cards</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: #ff0000; margin-bottom: 15px; font-size: 1rem;"><img src="images/LOGO/high-impact-red-neon-math-tool-icon-with-dark-background_462839-2439.jpg" alt="Black Store" style="width: 20px; height: 20px; filter: brightness(1.2); margin-right: 8px; vertical-align: middle;"> Black Store Security</h4>
+                    <ul style="list-style: none; padding: 0; color: #ccc; font-size: 0.85rem;">
+                        <li style="margin-bottom: 8px;"><i class="fas fa-network-wired" style="color: #ff0000; margin-right: 20px;"></i>TOR Network Compatible</li>
+                        <li style="margin-bottom: 8px;"><i class="fab fa-bitcoin" style="color: #ff0000; margin-right: 20px;"></i>Bitcoin Payment Only</li>
+                        <li style="margin-bottom: 8px;"><i class="fas fa-mask" style="color: #ff0000; margin-right: 20px;"></i>No Identity Disclosure</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: #ff0000; margin-bottom: 15px; font-size: 1rem;"><i class="fas fa-shield-virus" style="text-shadow: 0 0 10px rgba(255,0,0,0.5);"></i> Secret Access</h4>
+                    <ul style="list-style: none; padding: 0; color: #ccc; font-size: 0.85rem;">
+                        <li style="margin-bottom: 8px;"><i class="fas fa-comment-dots" style="color: #ff0000; margin-right: 20px;"></i>Encrypted Chat Support</li>
+                        <li style="margin-bottom: 8px;"><i class="fas fa-shipping-fast" style="color: #ff0000; margin-right: 20px;"></i>Instant Dark Delivery</li>
+                        <li style="margin-bottom: 8px;"><i class="fas fa-eye-slash" style="color: #ff0000; margin-right: 20px;"></i>No Questions Asked</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom" style="border-top: 1px solid #ff0000; padding-top: 20px; text-align: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; flex-direction: row-reverse;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="position: relative; width: 30px; height: 30px;">
+                            <i class="fab fa-cc-visa" style="width: 100%; height: 100%; font-size: 30px; color: #ff0000; filter: drop-shadow(0 0 15px rgba(255,0,0,0.8)) drop-shadow(0 0 30px rgba(255,0,0,0.4)); border-radius: 8px;"></i>
+                            <div style="position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px; border: 1px solid rgba(255,0,0,0.3); border-radius: 9px; animation: logoRing 4s linear infinite; pointer-events: none;"></div>
+                        </div>
+                        <p style="color: #666; font-size: 0.8rem; margin: 0;">&copy; 2025 VISA. All rights reserved.</p>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <span class="live-indicator" style="background: #1a1a2e; padding: 2px 6px; border-radius: 8px; color: #00ff00; font-size: 0.6rem; border: 1px solid #00ff00;"><i class="fas fa-circle" style="color: #00ff00;"></i> LIVE</span>
+                        <span class="live-indicator" style="color: #00ff00; font-size: 0.65rem;"><i class="fas fa-circle" style="color: #00ff00;"></i> Online Now</span>
+                        <span style="color: #ccc; font-size: 0.6rem;"><i class="fas fa-lock"></i> SSL Secured</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes liveBlink {
+                0%, 50% { opacity: 1; }
+                51%, 100% { opacity: 0.3; }
+            }
+            @keyframes pulse {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.7; transform: scale(1.1); }
+            }
+            .live-indicator {
+                animation: liveBlink 1.5s infinite;
+            }
+            #paymentModal button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            }
+            @keyframes headerHologram {
+                0%, 100% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(255,0,0,0.8)) drop-shadow(0 0 50px rgba(255,0,0,0.4)); }
+                25% { transform: scale(1.05); filter: drop-shadow(0 0 35px rgba(255,0,0,1)) drop-shadow(0 0 70px rgba(255,0,0,0.6)); }
+                50% { transform: scale(0.98); filter: drop-shadow(0 0 30px rgba(255,0,0,0.9)) drop-shadow(0 0 60px rgba(255,0,0,0.5)); }
+                75% { transform: scale(1.02); filter: drop-shadow(0 0 40px rgba(255,0,0,1.1)) drop-shadow(0 0 80px rgba(255,0,0,0.7)); }
+            }
+            @keyframes headerRing {
+                0% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+                50% { transform: rotate(180deg) scale(1.1); opacity: 0.6; }
+                100% { transform: rotate(360deg) scale(1); opacity: 0.3; }
+            }
+            @keyframes navIconGlow {
+                0%, 100% { filter: drop-shadow(0 0 15px rgba(255,0,0,0.8)); }
+                50% { filter: drop-shadow(0 0 25px rgba(255,0,0,1.2)) drop-shadow(0 0 40px rgba(255,0,0,0.6)); }
+            }
+            @keyframes navUnderline {
+                0%, 100% { opacity: 0.5; transform: translateX(-50%) scaleX(0.8); }
+                50% { opacity: 1; transform: translateX(-50%) scaleX(1.2); }
+            }
+            @keyframes logoRing {
+                0% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+                50% { transform: rotate(180deg) scale(1.05); opacity: 0.6; }
+                100% { transform: rotate(360deg) scale(1); opacity: 0.3; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    
+    <script src="script.js"></script>
+    
+    <script>
+        // Buy Now Button Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update OTP tags
+            const otpTags = document.querySelectorAll('.no-otp-tag');
+            otpTags.forEach(tag => {
+                if (tag.classList.contains('premium')) {
+                    tag.textContent = '📧 Email + Password Included for OTP';
+                } else {
+                    tag.textContent = '🔓 No OTP Required';
+                }
+            });
+            
+            const buyButtons = document.querySelectorAll('.add-to-cart');
+            buyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productCard = button.closest('.product-card');
+                    const productName = productCard.querySelector('h3').textContent;
+                    const productPrice = productCard.querySelector('.price').textContent;
+                    const productImage = productCard.querySelector('.card-image img').src;
+                    
+                    // Navigate to payment page
+                    window.location.href = `payment.html?product=${encodeURIComponent(productName)}&price=${encodeURIComponent(productPrice)}&image=${encodeURIComponent(productImage)}`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

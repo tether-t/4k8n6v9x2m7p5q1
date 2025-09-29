@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم البائعين - CardVault</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .dashboard-container {
+            margin-top: 100px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ffff;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+        
+        .dashboard-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .section-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .section-title {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            color: #e0e0e0;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
+        }
+        
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .products-table th,
+        .products-table td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .products-table th {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            font-weight: 600;
+        }
+        
+        .products-table td {
+            color: #e0e0e0;
+        }
+        
+        .action-btn {
+            background: rgba(255, 0, 255, 0.2);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            color: #ff00ff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 2px;
+            font-size: 0.8rem;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 0, 255, 0.3);
+        }
+        
+        .status-active {
+            color: #00ff00;
+        }
+        
+        .status-inactive {
+            color: #ff6b6b;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>CardVault</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html">الرئيسية</a>
+                <a href="#dashboard">لوحة التحكم</a>
+                <a href="#products">منتجاتي</a>
+                <a href="#analytics">التحليلات</a>
+                <a href="#settings">الإعدادات</a>
+            </div>
+            <div class="nav-actions">
+                <div class="cart-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <button class="login-btn">تسجيل الخروج</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1>مرحبًا بك في لوحة تحكم البائعين</h1>
+            <p>إدارة منتجاتك ومبيعاتك بسهولة وأمان</p>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <span class="stat-number">24</span>
+                <span class="stat-label">المنتجات النشطة</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <span class="stat-number">$2,450</span>
+                <span class="stat-label">المبيعات هذا الشهر</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <span class="stat-number">156</span>
+                <span class="stat-label">إجمالي الطلبات</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <span class="stat-number">4.8</span>
+                <span class="stat-label">تقييم البائع</span>
+            </div>
+        </div>
+
+        <!-- Dashboard Sections -->
+        <div class="dashboard-sections">
+            <!-- Add New Product -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <i class="fas fa-plus-circle"></i>
+                    إضافة منتج جديد
+                </h2>
+                <form id="add-product-form">
+                    <div class="form-group">
+                        <label for="product-name">اسم المنتج</label>
+                        <input type="text" id="product-name" placeholder="مثال: بطاقة Amazon $50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">التصنيف</label>
+                        <select id="product-category" required>
+                            <option value="">اختر التصنيف</option>
+                            <option value="gift">بطاقات الهدايا</option>
+                            <option value="prepaid">مسبقة الدفع</option>
+                            <option value="gaming">الألعاب</option>
+                            <option value="streaming">البث</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">السعر ($)</label>
+                        <input type="number" id="product-price" placeholder="50.00" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-discount">نسبة الخصم (%)</label>
+                        <input type="number" id="product-discount" placeholder="0" min="0" max="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-stock">الكمية المتاحة</label>
+                        <input type="number" id="product-stock" placeholder="100" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">وصف المنتج</label>
+                        <textarea id="product-description" rows="3" placeholder="وصف تفصيلي للمنتج..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-plus"></i> إضافة المنتج
+                    </button>
+                </form>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section-card">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    إجراءات سريعة
+                </h2>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <button class="btn-primary" onclick="viewOrders()">
+                        <i class="fas fa-list"></i> عرض الطلبات الجديدة
+                    </button>
+                    <button class="btn-primary" onclick="viewAnalytics()">
+                        <i class="fas fa-chart-bar"></i> تحليلات المبيعات
+                    </button>
+                    <button class="btn-primary" onclick="manageInventory()">
+                        <i class="fas fa-boxes"></i> إدارة المخزون
+                    </button>
+                    <button class="btn-primary" onclick="updatePrices()">
+                        <i class="fas fa-tags"></i> تحديث الأسعار
+                    </button>
+                    <button class="btn-primary" onclick="exportData()">
+                        <i class="fas fa-download"></i> تصدير البيانات
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Management -->
+        <div class="section-card" style="margin-top: 2rem;">
+            <h2 class="section-title">
+                <i class="fas fa-inventory"></i>
+                إدارة المنتجات
+            </h2>
+            <div style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
+                <input type="text" placeholder="البحث في المنتجات..." style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(0,255,255,0.2); border-radius: 8px; padding: 10px; color: #e0e0e0;">
+                <select style="background: rgba(255,255,255,0.1); border: 1px solid rgba(0,255,255,0.2); border-radius: 8px; padding: 10px; color: #e0e0e0;">
+                    <option value="">جميع التصنيفات</option>
+                    <option value="gift">بطاقات الهدايا</option>
+                    <option value="prepaid">مسبقة الدفع</option>
+                    <option value="gaming">الألعاب</option>
+                    <option value="streaming">البث</option>
+                </select>
+            </div>
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>اسم المنتج</th>
+                        <th>التصنيف</th>
+                        <th>السعر</th>
+                        <th>المخزون</th>
+                        <th>الحالة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="products-table-body">
+                    <tr>
+                        <td>بطاقة Amazon $50</td>
+                        <td>بطاقات الهدايا</td>
+                        <td>$50.00</td>
+                        <td>25</td>
+                        <td><span class="status-active">نشط</span></td>
+                        <td>
+                            <button class="action-btn">تعديل</button>
+                            <button class="action-btn">إيقاف</button>
+                            <button class="action-btn">حذف</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>بطاقة PlayStation $25</td>
+                        <td>الألعاب</td>
+                        <td>$25.00</td>
+                        <td>0</td>
+                        <td><span class="status-inactive">نفد المخزون</span></td>
+                        <td>
+                            <button class="action-btn">تعديل</button>
+                            <button class="action-btn">تفعيل</button>
+                            <button class="action-btn">حذف</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>بطاقة Netflix شهر</td>
+                        <td>البث</td>
+                        <td>$15.00</td>
+                        <td>50</td>
+                        <td><span class="status-active">نشط</span></td>
+                        <td>
+                            <button class="action-btn">تعديل</button>
+                            <button class="action-btn">إيقاف</button>
+                            <button class="action-btn">حذف</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="section-card" style="margin-top: 2rem;">
+            <h2 class="section-title">
+                <i class="fas fa-clock"></i>
+                الطلبات الأخيرة
+            </h2>
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>رقم الطلب</th>
+                        <th>المنتج</th>
+                        <th>المشتري</th>
+                        <th>المبلغ</th>
+                        <th>التاريخ</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#12345</td>
+                        <td>بطاقة Amazon $50</td>
+                        <td>أحمد محمد</td>
+                        <td>$50.00</td>
+                        <td>2024-01-15</td>
+                        <td><span class="status-active">مكتمل</span></td>
+                    </tr>
+                    <tr>
+                        <td>#12346</td>
+                        <td>بطاقة PlayStation $25</td>
+                        <td>سارة أحمد</td>
+                        <td>$25.00</td>
+                        <td>2024-01-15</td>
+                        <td><span style="color: #ffaa00;">قيد المعالجة</span></td>
+                    </tr>
+                    <tr>
+                        <td>#12347</td>
+                        <td>بطاقة Netflix شهر</td>
+                        <td>محمد علي</td>
+                        <td>$15.00</td>
+                        <td>2024-01-14</td>
+                        <td><span class="status-active">مكتمل</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Add Product Form Handler
+        document.getElementById('add-product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('product-name').value,
+                category: document.getElementById('product-category').value,
+                price: document.getElementById('product-price').value,
+                discount: document.getElementById('product-discount').value || 0,
+                stock: document.getElementById('product-stock').value,
+                description: document.getElementById('product-description').value
+            };
+            
+            // Simulate adding product
+            showNotification('تم إضافة المنتج بنجاح!');
+            this.reset();
+        });
+
+        // Quick Actions
+        function viewOrders() {
+            showNotification('عرض الطلبات الجديدة...');
+        }
+
+        function viewAnalytics() {
+            showNotification('تحميل تحليلات المبيعات...');
+        }
+
+        function manageInventory() {
+            showNotification('فتح إدارة المخزون...');
+        }
+
+        function updatePrices() {
+            showNotification('فتح أداة تحديث الأسعار...');
+        }
+
+        function exportData() {
+            showNotification('تصدير البيانات...');
+        }
+
+        // Notification function
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(45deg, #00ffff, #0080ff);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                z-index: 3000;
+                box-shadow: 0 8px 25px rgba(0,255,255,0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
